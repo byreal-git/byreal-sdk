@@ -13,26 +13,12 @@ npm install @byreal-io/byreal-sdk
 ### Initialize SDK
 
 ```typescript
-import { Connection } from '@solana/web3.js';
-import { ByrealSDK } from '@byreal-io/byreal-sdk';
+import { Connection } from "@solana/web3.js";
+import { ByrealSDK } from "@byreal-io/byreal-sdk";
 
-const connection = new Connection('https://api.mainnet-beta.solana.com');
+const connection = new Connection("https://api.mainnet-beta.solana.com");
 
 const sdk = new ByrealSDK({ connection });
-```
-
-### With Custom Configuration
-
-```typescript
-const sdk = new ByrealSDK({
-  connection,
-  config: {
-    apiBaseUrl: 'https://api2.byreal.io',  // default
-    apiTimeout: 30000,                       // default: 30s
-    defaultSlippageBps: 200,                 // default: 2%
-    debug: false,
-  },
-});
 ```
 
 ## Core Features
@@ -45,8 +31,8 @@ List, search, and get pool details.
 // List pools sorted by TVL
 const poolsResult = await sdk.pools.list({
   pageSize: 10,
-  sortField: 'tvl',
-  sortType: 'desc',
+  sortField: "tvl",
+  sortType: "desc",
 });
 
 if (poolsResult.ok) {
@@ -56,13 +42,13 @@ if (poolsResult.ok) {
 }
 
 // Get pool details
-const detailResult = await sdk.pools.getDetail('pool-address');
+const detailResult = await sdk.pools.getDetail("pool-address");
 
 // Get K-line data
 const klines = await sdk.pools.getKlines({
-  poolAddress: 'pool-address',
-  tokenAddress: 'token-mint',
-  klineType: '1h',
+  poolAddress: "pool-address",
+  tokenAddress: "token-mint",
+  klineType: "1h",
 });
 ```
 
@@ -71,16 +57,15 @@ const klines = await sdk.pools.getKlines({
 ```typescript
 // List tokens
 const tokensResult = await sdk.tokens.list({
-  searchKey: 'SOL',
+  searchKey: "SOL",
   pageSize: 10,
 });
 
 // Batch fetch prices
 const prices = await sdk.tokens.getPrices([
-  'So11111111111111111111111111111111111111112',
-  'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
+  "So11111111111111111111111111111111111111112",
+  "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
 ]);
-
 ```
 
 ### 3. Global Overview
@@ -103,20 +88,20 @@ Get quotes and execute swaps through the Byreal router (AMM + RFQ auto-routing).
 ```typescript
 // Preview swap (quote only)
 const quote = await sdk.swap.getQuote({
-  inputMint: 'So11111111111111111111111111111111111111112',
-  outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-  amount: '1000000000', // 1 SOL in lamports
-  swapMode: 'in',
+  inputMint: "So11111111111111111111111111111111111111112",
+  outputMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  amount: "1000000000", // 1 SOL in lamports
+  swapMode: "in",
   slippageBps: 200,
   userPublicKey: wallet.publicKey.toBase58(),
 });
 
 // Execute swap with signing
 const swapResult = await sdk.swap.executeSwap({
-  inputMint: 'So11111111111111111111111111111111111111112',
-  outputMint: 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v',
-  amount: '1000000000',
-  swapMode: 'in',
+  inputMint: "So11111111111111111111111111111111111111112",
+  outputMint: "EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v",
+  amount: "1000000000",
+  swapMode: "in",
   userPublicKey: wallet.publicKey.toBase58(),
   signerCallback: async (tx) => {
     tx.sign([wallet]);
@@ -125,8 +110,8 @@ const swapResult = await sdk.swap.executeSwap({
 });
 
 if (swapResult.ok) {
-  console.log('Swap signatures:', swapResult.value.signatures);
-  console.log('Confirmed:', swapResult.value.confirmed);
+  console.log("Swap signatures:", swapResult.value.signatures);
+  console.log("Confirmed:", swapResult.value.confirmed);
 }
 ```
 
@@ -139,9 +124,9 @@ Open, close, and claim fees for CLMM liquidity positions.
 ```typescript
 // Open position with USD amount (auto token split)
 const openResult = await sdk.positions.openPosition({
-  poolAddress: 'pool-address',
-  priceLower: '0.998',
-  priceUpper: '1.002',
+  poolAddress: "pool-address",
+  priceLower: "0.998",
+  priceUpper: "1.002",
   amountUsd: 1000, // $1000 investment
   userAddress: wallet.publicKey.toBase58(),
   signerCallback: async (tx) => {
@@ -152,11 +137,11 @@ const openResult = await sdk.positions.openPosition({
 
 // Or with explicit token amount
 const openResult2 = await sdk.positions.openPosition({
-  poolAddress: 'pool-address',
-  priceLower: '0.998',
-  priceUpper: '1.002',
-  base: 'MintA',
-  amount: '100',     // 100 TokenA (UI amount)
+  poolAddress: "pool-address",
+  priceLower: "0.998",
+  priceUpper: "1.002",
+  base: "MintA",
+  amount: "100", // 100 TokenA (UI amount)
   userAddress: wallet.publicKey.toBase58(),
   signerCallback: async (tx) => {
     tx.sign([wallet]);
@@ -169,7 +154,7 @@ const openResult2 = await sdk.positions.openPosition({
 
 ```typescript
 const closeResult = await sdk.positions.closePosition({
-  nftMint: 'position-nft-mint-address',
+  nftMint: "position-nft-mint-address",
   userAddress: wallet.publicKey.toBase58(),
   signerCallback: async (tx) => {
     tx.sign([wallet]);
@@ -182,7 +167,7 @@ const closeResult = await sdk.positions.closePosition({
 
 ```typescript
 const claimResult = await sdk.positions.claimFees({
-  nftMints: ['nft-mint-1', 'nft-mint-2'],
+  nftMints: ["nft-mint-1", "nft-mint-2"],
   userAddress: wallet.publicKey.toBase58(),
   signerCallback: async (tx) => {
     tx.sign([wallet]);
@@ -211,15 +196,15 @@ Discover top-performing positions and copy their strategies.
 ```typescript
 // Get top positions for a pool
 const topPositions = await sdk.copyFarmer.getTopPositions({
-  poolAddress: 'pool-address',
-  sortField: 'liquidity',
-  sortType: 'desc',
+  poolAddress: "pool-address",
+  sortField: "liquidity",
+  sortType: "desc",
   pageSize: 10,
 });
 
 // Copy a position
 const copyResult = await sdk.copyFarmer.copyPosition({
-  sourcePositionAddress: 'position-address',
+  sourcePositionAddress: "position-address",
   amountUsd: 500,
   userAddress: wallet.publicKey.toBase58(),
   signerCallback: async (tx) => {
@@ -234,9 +219,9 @@ const copyResult = await sdk.copyFarmer.copyPosition({
 ```typescript
 const feeResult = await sdk.fees.getAutoFee();
 if (feeResult.ok) {
-  console.log('High:', feeResult.value.high);
-  console.log('Medium:', feeResult.value.medium);
-  console.log('Extreme:', feeResult.value.extreme);
+  console.log("High:", feeResult.value.high);
+  console.log("Medium:", feeResult.value.medium);
+  console.log("Extreme:", feeResult.value.extreme);
 }
 ```
 
@@ -268,15 +253,15 @@ The SDK has a three-layer architecture:
 For advanced use cases, you can access the API client directly:
 
 ```typescript
-import { ApiClient, API_ENDPOINTS } from '@byreal-io/byreal-sdk/api';
+import { ApiClient, API_ENDPOINTS } from "@byreal-io/byreal-sdk/api";
 
-const client = new ApiClient({ baseUrl: 'https://api2.byreal.io' });
+const client = new ApiClient({ baseUrl: "https://api2.byreal.io" });
 
 // Call any endpoint directly
 const result = await client.get(API_ENDPOINTS.POOLS_LIST, {
   page: 1,
   pageSize: 10,
-  sortField: 'tvl',
+  sortField: "tvl",
 });
 ```
 
@@ -288,19 +273,19 @@ import {
   rawToUi,
   calculateTickAlignedPriceRange,
   calculateTokenAmountsFromUsd,
-} from '@byreal-io/byreal-sdk';
+} from "@byreal-io/byreal-sdk";
 
 // Amount conversion
-uiToRaw('1.5', 9);    // '1500000000'
-rawToUi('1500000000', 9); // '1.5'
+uiToRaw("1.5", 9); // '1500000000'
+rawToUi("1500000000", 9); // '1.5'
 
 // Tick-aligned price range
 const { priceInTickLower, priceInTickUpper } = calculateTickAlignedPriceRange({
   tickSpacing: 1,
   mintDecimalsA: 9,
   mintDecimalsB: 6,
-  startPrice: '0.998',
-  endPrice: '1.002',
+  startPrice: "0.998",
+  endPrice: "1.002",
 });
 ```
 
@@ -309,7 +294,7 @@ const { priceInTickLower, priceInTickUpper } = calculateTickAlignedPriceRange({
 The SDK is designed for easy integration with `solana-agent-kit`:
 
 ```typescript
-import { ByrealSDK } from '@byreal-io/byreal-sdk';
+import { ByrealSDK } from "@byreal-io/byreal-sdk";
 
 // In your agent-kit plugin tool:
 async function byrealSwap(agent, input) {
