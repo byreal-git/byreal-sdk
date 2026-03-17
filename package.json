@@ -1,6 +1,6 @@
 {
   "name": "@byreal-io/byreal-sdk",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Full-featured Byreal DEX SDK for Solana - API client, CLMM position management, swap, and more",
   "type": "module",
   "main": "./dist/esm/index.js",
@@ -28,9 +28,9 @@
     "build": "tsc",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist",
     "format": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
-    "format:check": "prettier --check \"src/**/*.ts\" \"examples/**/*.ts\""
+    "prepublishOnly": "npm run build",
+    "postversion": "git push && git push --tags"
   },
   "dependencies": {
     "@byreal-io/byreal-clmm-sdk": "^0.2.2",

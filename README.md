@@ -212,7 +212,7 @@ Discover top-performing positions and copy their strategies.
 // Get top positions for a pool
 const topPositions = await sdk.copyFarmer.getTopPositions({
   poolAddress: 'pool-address',
-  sortField: 'apr',
+  sortField: 'liquidity',
   sortType: 'desc',
   pageSize: 10,
 });
@@ -333,7 +333,7 @@ More examples are available in the [examples](./examples) directory:
 - Swap: `05_swap_quote.ts`, `06_swap_execute.ts`
 - Positions: `07_list_positions.ts`, `08_open_position.ts`, `09_close_position.ts`, `10_claim_fees.ts`
 - Copy Farming: `11_top_positions.ts`, `12_copy_position.ts`
-- Utility: `13_amount_conversion.ts`, `14_tick_aligned_price.ts`
+- Utility: `13_priority_fees.ts`, `14_tick_aligned_price.ts`, `15_token_prices.ts`, `16_kline_data.ts`
 
 ## Development
 
