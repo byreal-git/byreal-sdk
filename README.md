@@ -225,29 +225,6 @@ if (feeResult.ok) {
 }
 ```
 
-## Architecture
-
-The SDK has a three-layer architecture:
-
-```
-┌──────────────────────────────────────────────┐
-│  ByrealSDK (Facade)                          │
-│  sdk.pools / sdk.tokens / sdk.swap / ...     │
-├──────────────────────────────────────────────┤
-│  Services Layer (Business Logic)             │
-│  Composes API + CLMM SDK operations          │
-├──────────────────────────────────────────────┤
-│  API Client Layer (HTTP Endpoints)           │
-│  1:1 mapping to all backend endpoints        │
-├──────────────────────────────────────────────┤
-│  Types + Errors + Utils                      │
-└──────────────────────────────────────────────┘
-```
-
-- **API Layer**: Covers 40+ backend endpoints using native `fetch` (zero HTTP dependencies)
-- **Services Layer**: 7 business services composing API calls + on-chain CLMM SDK operations
-- **CLMM SDK**: Imported via npm (`@byreal-io/byreal-clmm-sdk`) for on-chain position management
-
 ## Low-level API Access
 
 For advanced use cases, you can access the API client directly:
@@ -289,27 +266,6 @@ const { priceInTickLower, priceInTickUpper } = calculateTickAlignedPriceRange({
 });
 ```
 
-## Integration with Solana Agent Kit
-
-The SDK is designed for easy integration with `solana-agent-kit`:
-
-```typescript
-import { ByrealSDK } from "@byreal-io/byreal-sdk";
-
-// In your agent-kit plugin tool:
-async function byrealSwap(agent, input) {
-  const sdk = new ByrealSDK({ connection: agent.connection });
-
-  const result = await sdk.swap.executeSwap({
-    ...input,
-    userPublicKey: agent.wallet.publicKey.toBase58(),
-    signerCallback: (tx) => agent.wallet.signTransaction(tx),
-  });
-
-  return result;
-}
-```
-
 ## Examples
 
 More examples are available in the [examples](./examples) directory:
@@ -319,22 +275,6 @@ More examples are available in the [examples](./examples) directory:
 - Positions: `07_list_positions.ts`, `08_open_position.ts`, `09_close_position.ts`, `10_claim_fees.ts`
 - Copy Farming: `11_top_positions.ts`, `12_copy_position.ts`
 - Utility: `13_priority_fees.ts`, `14_tick_aligned_price.ts`, `15_token_prices.ts`, `16_kline_data.ts`
-
-## Development
-
-```bash
-# Install dependencies
-npm install
-
-# Build
-npm run build
-
-# Type check
-npm run typecheck
-
-# Run examples
-npx tsx examples/01_list_pools.ts
-```
 
 ## License
 
