@@ -1,0 +1,66 @@
+{
+  "name": "@byreal-io/byreal-sdk",
+  "version": "0.1.0",
+  "description": "Full-featured Byreal DEX SDK for Solana - API client, CLMM position management, swap, and more",
+  "type": "module",
+  "main": "./dist/esm/index.js",
+  "types": "./dist/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/esm/index.d.ts",
+      "import": "./dist/esm/index.js"
+    },
+    "./api": {
+      "types": "./dist/esm/api/index.d.ts",
+      "import": "./dist/esm/api/index.js"
+    },
+    "./types": {
+      "types": "./dist/esm/types/index.d.ts",
+      "import": "./dist/esm/types/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "dist",
+    "package.json"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "format": "prettier --write \"src/**/*.ts\" \"examples/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\" \"examples/**/*.ts\""
+  },
+  "dependencies": {
+    "@byreal-io/byreal-clmm-sdk": "^0.2.2",
+    "@solana/spl-token": "^0.4.14",
+    "@solana/web3.js": "^1.98.4",
+    "bn.js": "^5.2.3",
+    "decimal.js": "^10.5.0"
+  },
+  "devDependencies": {
+    "@types/bn.js": "^5.2.0",
+    "bs58": "^6.0.0",
+    "dotenv": "^17.3.1",
+    "prettier": "^3.8.1",
+    "tsx": "^4.21.0",
+    "typescript": "^5.7.3"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/byreal-io/byreal-sdk"
+  },
+  "keywords": [
+    "byreal",
+    "solana",
+    "dex",
+    "clmm",
+    "sdk",
+    "defi"
+  ]
+}
